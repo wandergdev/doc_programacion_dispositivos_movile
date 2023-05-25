@@ -2,11 +2,12 @@
 
 En este repositorio encontrarás información sobre los siguientes frameworks móviles populares:
 
-- [Flutter](#flutter)
-- [Xamarin](#xamarin)
-- [React Native](#react-native)
-- [Ionic](#ionic)
-- [Swiftic](#swiftic)
+- [Frameworks móviles populares](#frameworks-móviles-populares)
+  - [Flutter](#flutter)
+  - [Xamarin](#xamarin)
+  - [Ionic](#ionic)
+  - [Swiftic](#swiftic)
+  - [React Native](#react-native)
 
 ## Flutter
 
