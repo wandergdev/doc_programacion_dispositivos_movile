@@ -77,7 +77,173 @@ Un HOC puede agregar funcionalidad a un componente de diferentes maneras, como:
 - Manipular los props existentes antes de pasarlos al componente envuelto.
 - Controlar el renderizado condicional del componente.
 
+## Patron de Diseño Hooks
 
+El patrón de diseño "hooks" en React permite el uso de características de React, como el estado y los ciclos de vida, en componentes funcionales sin tener que convertirlos en componentes de clase. Los hooks son funciones especiales que te permiten "engancharte" en el ciclo de vida de un componente y añadir funcionalidad adicional.
+
+Los hooks se utilizan llamando a funciones específicas de React dentro de un componente funcional. Algunos de los hooks más comunes son:
+
+- `useState`: permite agregar estado a un componente funcional.
+- `useEffect`: se utiliza para ejecutar efectos secundarios en respuesta a cambios en el componente.
+- `useContext`: permite acceder al contexto de React.
+- `useRef`: devuelve un objeto mutable que persiste a través de las renderizaciones.
+
+```
+import React, { useState, useEffect } from 'react';
+const MyComponent = () => {
+ const [count, setCount] = useState(0);
+
+useEffect(() => {
+ document.title = `Contador: ${count}`;
+ }, [count]);
+
+return (
+ <div> <p>Contador: {count}</p>
+ <button onClick={() => setCount(count + 1)}>Incrementar</button> </div>
+ );
+};
+```
+
+En este ejemplo, `useState` se utiliza para agregar un contador al componente funcional `MyComponent`. El estado se actualiza mediante la función `setCount`. El hook `useEffect` se utiliza para cambiar el título del documento cada vez que el contador cambie.
+
+## Ventajas de los hooks
+
+- Simplifican la lógica de los componentes, evitando la necesidad de crear componentes de clase.
+- Permiten reutilizar la lógica entre diferentes componentes mediante la extracción de hooks personalizados.
+- Facilitan la separación de preocupaciones y la organización del código.
+
+## Consideraciones
+
+- Los hooks deben ser llamados en el nivel superior de un componente funcional, no dentro de bucles, condiciones o funciones anidadas.
+- Los hooks deben tener siempre el mismo orden en cada renderización.
+- No se pueden utilizar hooks en componentes de clase.
+
+Para obtener más información sobre los hooks en React, te recomendaría consultar la documentación oficial de React sobre los hooks: https://es.reactjs.org/docs/hooks-intro.html.
+
+# Redux
+
+Redux es una biblioteca de gestión de estado predecible para aplicaciones JavaScript. Proporciona un enfoque centralizado para almacenar y actualizar el estado de una aplicación, lo que facilita el seguimiento y la gestión de los cambios de estado en toda la aplicación.
+
+### Uso básico
+
+1. **Definición de acciones**: Las acciones son objetos que describen un cambio en el estado de la aplicación. Se definen mediante funciones llamadas "action creators". Por ejemplo:
+
+```javascript
+// actions.js
+export const increment = () => {
+  return {
+    type: 'INCREMENT'
+  };
+};
+```
+
+2. **Definición de reducers**: Los reducers son funciones que especifican cómo cambia el estado de la aplicación en respuesta a una acción. Cada reducer maneja una parte específica del estado. Por ejemplo:
+
+```javascript
+// reducers.js
+const counterReducer = (state = 0, action) => {
+  switch (action.type) {
+    case 'INCREMENT':
+      return state + 1;
+    default:
+      return state;
+  }
+};
+```
+
+3. **Creación del store**: El store de Redux es un objeto que almacena el estado de la aplicación y proporciona métodos para acceder a él y actualizarlo. Se crea utilizando la función `createStore` y se le pasa el reducer principal de la aplicación. Por ejemplo:
+
+```javascript
+// index.js
+import { createStore } from 'redux';
+import counterReducer from './reducers';
+
+const store = createStore(counterReducer);
+```
+
+4. **Uso del store en componentes**: Para acceder al estado y realizar cambios en él, se utilizan los métodos proporcionados por el store, como `getState` para obtener el estado actual y `dispatch` para enviar acciones. En los componentes, se puede utilizar la función `connect` de la biblioteca `react-redux` para conectar componentes a la parte relevante del estado y recibir actualizaciones automáticamente. Por ejemplo:
+
+```javascript
+// CounterComponent.js
+import React from 'react';
+import { connect } from 'react-redux';
+import { increment } from './actions';
+
+const CounterComponent = ({ count, increment }) => {
+  return (
+    <div>
+      <p>Contador: {count}</p>
+      <button onClick={increment}>Incrementar</button>
+    </div>
+  );
+};
+
+const mapStateToProps = state => {
+  return {
+    count: state
+  };
+};
+
+export default connect(mapStateToProps, { increment })(CounterComponent);
+```
+
+En este ejemplo, `mapStateToProps` se utiliza para mapear el estado de Redux a las propiedades del componente, y `increment` se pasa como una acción que se puede disparar en el componente.
+
+# Context
+
+Context es una característica de React que permite compartir datos entre componentes sin necesidad de pasar props manualmente a través de la jerarquía de componentes. Proporciona una forma de pasar datos a través del árbol de componentes sin tener que pasarlos explícitamente a través de las propiedades.
+
+### Uso básico
+
+1. **Creación del contexto**: Se crea un contexto utilizando la función `createContext`. Por ejemplo:
+
+```javascript
+// MyContext.js
+import React from 'react';
+
+const MyContext = React.createContext();
+export default MyContext;
+```
+
+2. **Proveedor de contexto**: Se utiliza el componente `Provider` del contexto para envolver
+   
+   los componentes que necesitan acceder a los datos compartidos. Se le pasa el valor que se desea compartir. Por ejemplo:
+
+```javascript
+// App.js
+import React from 'react';
+import MyContext from './MyContext';
+
+const App = () => {
+  const sharedData = 'Hola, mundo';
+
+  return (
+    <MyContext.Provider value={sharedData}>
+      <ComponentA />
+    </MyContext.Provider>
+  );
+};
+```
+
+3. **Consumo del contexto**: Para acceder a los datos compartidos, se utiliza el componente `Consumer` del contexto o el hook `useContext` en componentes funcionales. Por ejemplo:
+
+```javascript
+// ComponentB.js
+import React, { useContext } from 'react';
+import MyContext from './MyContext';
+
+const ComponentB = () => {
+  const sharedData = useContext(MyContext);
+
+  return <p>Datos compartidos: {sharedData}</p>;
+};
+```
+
+En este ejemplo, `useContext` se utiliza para acceder al valor compartido del contexto `MyContext`.
+
+Es importante destacar que Redux y Context son herramientas con enfoques diferentes para manejar el estado en React. Redux se utiliza generalmente para aplicaciones con un estado complejo y compartido en múltiples componentes, mientras que Context es más adecuado para compartir datos en componentes específicos sin necesidad de una gestión tan avanzada del estado.
+
+Documentación oficial de Redux ([https://redux.js.org/](https://redux.js.org/)) y React Context ([https://es.reactjs.org/docs/context.html](https://es.reactjs.org/docs/context.html)) para obtener más detalles y ejemplos más completos.
 
 # Diferencias entre los Patrones de Arquitectura y los Patrones de Diseño de React
 
