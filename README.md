@@ -1,3 +1,7 @@
+# Wander Roberto Genao De Jesús
+
+# 2020-0164
+
 # Frameworks móviles populares
 
 En este repositorio encontrarás información sobre los siguientes frameworks móviles populares:
@@ -93,5 +97,3 @@ Comparación con otras tecnologías:
 | -------------- | ---------------------------------- | ---------------------------------- | ------------------------------------- | ------------------------------ | --------------------------------------------------- |
 | Lenguaje base  | JavaScript                         | Swiftic                            | JavaScript                            | Dart                           | C#                                                  |
 | Página oficial | [Enlace](https://reactnative.dev/) | [Enlace](https://www.swiftic.com/) | [Enlace](https://ionicframework.com/) | [Enlace](https://flutter.dev/) | [Enlace](https://dotnet.microsoft.com/apps/xamarin) |
-
-
